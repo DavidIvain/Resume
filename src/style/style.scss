@@ -1,0 +1,115 @@
+// Variables
+$sides: (top, bottom, left, right);
+$flex-alignments: (flex-start, flex-end, center, space-between, space-around);
+$flex-directions: (row, column, row-reverse, column-reverse);
+$flex-wraps: (wrap, nowrap, wrap-reverse);
+$positions: (static, relative, absolute, fixed, sticky);
+$decorations: (underline, overline, none);
+$mp-step: 16;
+$z-step: 200;
+$n: 10;
+
+// Styles framework
+body {
+  margin: 0;
+}
+
+* {
+  position: relative;
+}
+
+#app .mbs-0 {
+  margin-block-start: 0;
+}
+
+#app .mbe-0 {
+  margin-block-end: 0;
+}
+
+// z-index
+@for $i from 0 through $n {
+  #app .zi-#{$i} {
+    z-index: #{$i * $z-step};
+  }
+}
+
+// margin padding
+@for $i from 0 through $n {
+  #app .m-#{$i} {
+    margin: #{$i * $mp-step}px;
+  }
+
+  #app .p-#{$i} {
+    padding: #{$i * $mp-step}px;
+  }
+}
+
+@for $i from 0 through $n {
+  @each $side in $sides {
+    #app .m#{str-slice($side, 0, 1)}-#{$i} {
+      margin-#{$side}: #{$i * $mp-step}px;
+    }
+
+    #app .p#{str-slice($side, 0, 1)}-#{$i} {
+      padding-#{$side}: #{$i * $mp-step}px;
+    }
+  }
+}
+
+// flex
+#app .flex {
+  display: flex;
+}
+
+// flex alignments
+@each $alignment in $flex-alignments {
+  #app .ai-#{$alignment} {
+    align-items: #{$alignment};
+  }
+
+  #app .jc-#{$alignment} {
+    justify-content: #{$alignment};
+  }
+}
+
+// flex directions
+@each $fd in $flex-directions {
+  #app .fd-#{$fd} {
+    flex-direction: #{$fd};
+  }
+}
+
+// flex grow
+@for $i from 0 through $n {
+  #app .fg-#{$i} {
+    flex-grow: #{$i};
+  }
+}
+
+// flex
+@for $i from 0 through $n {
+  #app .f-#{$i} {
+    flex: #{$i};
+  }
+}
+
+// flex wrap
+@each $fw in $flex-wraps {
+  #app .fw-#{$fw} {
+    flex-wrap: #{$fw};
+  }
+}
+
+// positions
+@each $p in $positions {
+  #app .pos-#{$p} {
+    position: #{$p};
+  }
+}
+
+// text decorations
+@each $d in $decorations {
+  #app .td-#{str-slice($d, 0, 1)} {
+    text-decoration: #{$d};
+  }
+}
