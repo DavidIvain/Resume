@@ -1,4 +1,11 @@
-# resume-vue
+# Resume (WIP)
+
+Word processors are not exactly my strong point, so I made my resume using Vue.js, Typescript and scss.<br/>
+That way, I can also reuse it for my online portfolio.
+
+I render the page in a Browser and take a full page screenshot.
+
+![My resume](readme_images/resume.png)
 
 ## Project setup
 ```
