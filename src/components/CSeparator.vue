@@ -1,17 +1,12 @@
 <template>
-  <div :class="direction" :style="style"></div>
+  <div :class="className" :style="style"/>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Separator",
-  computed: {
-    style (): string {
-      return (this.direction == "v" ? "height:" : "width:") + this.length + "%;";
-    }
-  },
+  name: "CSeparator",
   props:{
     direction: {
       type: String,
@@ -23,18 +18,26 @@ export default defineComponent({
       default: 100,
       validator: (value: number) => value >= 0 && value <= 100
     }
+  },
+  computed: {
+    style (): string {
+      return (this.direction == "v" ? "height:" : "width:") + this.length + "%;";
+    },
+    className(): string {
+      return `c-separator-${this.direction}`;
+    }
   }
 });
 </script>
 
-<style scoped>
-.h {
+<style>
+.c-separator-h {
   height: 0;
   margin-left: auto;
   margin-right: auto;
   border-top: 1px solid lightgrey;
 }
-.v {
+.c-separator-v {
   width: 0;
   margin-top: auto;
   margin-bottom: auto;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="c-card-content">
     <slot/>
   </div>
 </template>
@@ -8,13 +8,12 @@
 import {defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Container"
+  name: "CCardContent"
 });
 </script>
 
-<style scoped>
-.container {
-  margin: 0;
-  padding: 0;
+<style>
+.c-card-content {
+  padding: 16px;
 }
 </style>

@@ -1,6 +1,6 @@
 // Variables
 $sides: (top, bottom, left, right);
-$flex-alignments: (flex-start, flex-end, center, space-between, space-around);
+$flex-alignments: (flex-start, flex-end, center, space-between, space-around, space-evenly);
 $flex-directions: (row, column, row-reverse, column-reverse);
 $flex-wraps: (wrap, nowrap, wrap-reverse);
 $positions: (static, relative, absolute, fixed, sticky);
@@ -116,6 +116,10 @@ body {
     }
   }
 
+  img {
+    display: block;
+  }
+
   h1 {
     display: block;
     font-size: 2em;
@@ -187,6 +191,10 @@ body {
     color: -webkit-link;
     cursor: pointer;
     text-decoration: underline;
+  }
+
+  li {
+    list-style: url("/assets/chevron-right-12.svg");
   }
 
   .h1 {
