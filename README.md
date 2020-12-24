@@ -5,7 +5,7 @@ That way, I can also reuse it for my online portfolio.
 
 I render the page in a Browser and take a full page screenshot.
 
-![My resume](readme_images/resume.png)
+![My resume](readme_images/resume.jpg)
 
 ## Project setup
 ```
