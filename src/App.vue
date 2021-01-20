@@ -22,7 +22,7 @@
             <CCardContent>
               <CContainer v-for="link in links" :key="link.text" class="flex fd-row pt-1">
                 <img :src="'/assets/'+link.icon+'.svg'" :alt="link.label + ' icon'">
-                <a class="ml-1" v-bind:href="link.href">{{ link.text }}</a>
+                <a class="ml-1" v-bind:href="link.href" target="_blank">{{ link.text }}</a>
               </CContainer>
             </CCardContent>
           </CContainer>
@@ -33,47 +33,69 @@
       <CCard class="fg-1 flex fd-column p-2">
         <CContainer class="flex fd-row fw-nowrap jc-flex-start">
           <CContainer class="f-1 p-2">
-            <CCardTitle background-color="mediumseagreen">
+            <CCardTitle background-color="crimson">
               <svg width="30" height="30">
-                <title>{{formations.icon}} icon</title>
-                <use :href="'/assets/'+formations.icon+'.svg#'+formations.icon" height="30" width="30"></use>
+                <title>User icon</title>
+                <use href="/assets/user.svg#user" height="30" width="30"></use>
               </svg>
-              <h3 class="h1" style="margin-inline-start: 16px">{{ formations.title }}</h3>
+              <h3 class="h1" style="margin-inline-start: 16px">À Propos</h3>
             </CCardTitle>
             <CCardContent>
-              <CContainer v-for="formation in formations.list" :key="formation.title">
-                <h4 style="white-space: normal" class="h3 mbe-0">{{ formation.title }}</h4>
-                <p class="mbs-0 mbe-0">{{ formation.school }}</p>
-                <p class="mbs-0 mbe-0" v-if="formation.mention">{{ formation.mention }}</p>
-                <p class="mbs-0">{{ formation.time }}</p>
+              <CContainer>
+                <h4 class="h3">Introduction</h4>
+                <p>
+                  Étudiant en 2ème année de master informatique à l'université de Lille,<br/>
+                  Je suis à la recherche d'un stage de fin d'études en tant que développeur, de préférence dans le domaine du web ou mobile.
+                </p>
+                <h4 class="h3">Centres d'intérêt</h4>
+                <p></p>
               </CContainer>
             </CCardContent>
           </CContainer>
           <CContainer class="f-1 p-2">
-            <CCardTitle background-color="rosybrown">
-              <svg width="30" height="30">
-                <title>{{stages.icon}} icon</title>
-                <use :href="'/assets/'+stages.icon+'.svg#'+stages.icon" height="30" width="30"></use>
-              </svg>
-              <h3 class="h1" style="margin-inline-start: 16px">{{ stages.title }}</h3>
-            </CCardTitle>
-            <CCardContent>
-              <CContainer v-for="stage in stages.list" :key="stage.title">
-                <h4 class="h3">{{ stage.title }}</h4>
-                <CContainer v-for="exp in stage.experiences" :key="exp.time">
-                  <h5 class="mbe-0">{{ exp.time }}</h5>
-                  <p class="mbs-0">{{ exp.description }}</p>
+            <CContainer>
+              <CCardTitle background-color="mediumseagreen">
+                <svg width="30" height="30">
+                  <title>{{formations.icon}} icon</title>
+                  <use :href="'/assets/'+formations.icon+'.svg#'+formations.icon" height="30" width="30"></use>
+                </svg>
+                <h3 class="h1" style="margin-inline-start: 16px">{{ formations.title }}</h3>
+              </CCardTitle>
+              <CCardContent>
+                <CContainer v-for="formation in formations.list" :key="formation.title">
+                  <h4 style="white-space: normal" class="h3 mbe-0">{{ formation.title }}</h4>
+                  <p class="mbs-0 mbe-0">{{ formation.school }}</p>
+                  <p class="mbs-0 mbe-0" v-if="formation.mention">{{ formation.mention }}</p>
+                  <p class="mbs-0">{{ formation.time }}</p>
                 </CContainer>
-                <CContainer v-for="p in stage.plus" :key="p.title">
-                  <h5 class="mbe-0">{{ p.title }}</h5>
-                  <p class="mbs-0" v-html="p.text"></p>
+              </CCardContent>
+            </CContainer>
+            <CContainer>
+              <CCardTitle background-color="rosybrown">
+                <svg width="30" height="30">
+                  <title>{{stages.icon}} icon</title>
+                  <use :href="'/assets/'+stages.icon+'.svg#'+stages.icon" height="30" width="30"></use>
+                </svg>
+                <h3 class="h1" style="margin-inline-start: 16px">{{ stages.title }}</h3>
+              </CCardTitle>
+              <CCardContent>
+                <CContainer v-for="stage in stages.list" :key="stage.title">
+                  <h4 class="h3">{{ stage.title }}</h4>
+                  <CContainer v-for="exp in stage.experiences" :key="exp.time">
+                    <h5 class="mbe-0">{{ exp.time }}</h5>
+                    <p class="mbs-0">{{ exp.description }}</p>
+                  </CContainer>
+                  <CContainer v-for="p in stage.plus" :key="p.title">
+                    <h5 class="mbe-0">{{ p.title }}</h5>
+                    <p class="mbs-0" v-html="p.text"></p>
+                  </CContainer>
                 </CContainer>
-              </CContainer>
-            </CCardContent>
+              </CCardContent>
+            </CContainer>
           </CContainer>
         </CContainer>
         <CContainer class="p-2">
-          <CCardTitle class="mb-1"
+          <CCardTitle
                       background="linear-gradient(to right, skyblue, plum, lightcoral)">
             <svg width="30" height="30">
               <title>{{competences.icon}} icon</title>
@@ -81,7 +103,7 @@
             </svg>
             <h3 class="h1" style="margin-inline-start: 16px;">{{ competences.title }}</h3>
           </CCardTitle>
-          <CCardContent class="flex fd-row jc-space-between p-0">
+          <CCardContent class="flex fd-row jc-space-between p-1">
             <CContainer v-for="competence in competences.list" :key="competence.category" class="flex fd-column">
               <CCardTitle class="mb-1" align="center" :background-color="competence.color">
                 <svg width="24" height="24">
@@ -95,7 +117,7 @@
               <CCard :elevated="false">
                 <CCardContent>
                   <div v-for="comp in competence.list" :key="comp" class="competence">
-                    <p>{{ comp }}</p>
+                    <p class="flex fd-row jc-space-between"><span>{{ comp[0] }}</span><img class="ml-1" v-if="comp[1]" src="/assets/star.svg" alt="star icon"></p>
                   </div>
                 </CCardContent>
               </CCard>

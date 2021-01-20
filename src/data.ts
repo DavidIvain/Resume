@@ -2,7 +2,7 @@ interface Competence {
     category: string;
     icon: string;
     color: string;
-    list: string[];
+    list: [string, boolean][];
 }
 
 interface Experience {
@@ -36,7 +36,9 @@ interface Link {
 }
 
 interface Lang {
-    languages: Competence;
+    languages: string;
+    french: string;
+    english: string;
     trainee: string;
     week: string;
     expAng: string;
@@ -57,6 +59,7 @@ interface Lang {
     master: string;
     bac: string;
     bts: string;
+    common: string;
 }
 
 let cl = "fr";
@@ -66,15 +69,9 @@ const fr: Lang = {
     expIntra1: "Corrections de bugs sur l’intranet de l’entreprise et ajout de nouvelles fonctionnalités.",
     expIntra2: "Refonte complète de l’application Gestion de Projets de l’intranet. Utilisation de PHP, HTML, CSS et JavaScript.",
     major: "Premier de ma promotion",
-    languages: {
-        category: "Langues",
-        icon: "message-circle",
-        color: "limegreen",
-        list: [
-            "Français",
-            "Anglais courrant"
-        ]
-    },
+    languages: "Langues",
+    french: "Français",
+    english: "Anglais",
     plusUrbilog: {
         title: "Compétences Acquises :",
         text: "<ul><li>Fonctionnement en entreprise</li>" +
@@ -93,7 +90,8 @@ const fr: Lang = {
     licence: "Licence 3 Informatique",
     master: "Master",
     bac: "Baccalauréat Général Scientifique",
-    bts: "BTS SIO option SLAM"
+    bts: "BTS SIO option SLAM",
+    common: "Langages"
 };
 
 const en: Lang = {
@@ -101,15 +99,9 @@ const en: Lang = {
     expIntra1: "Fixed bugs on the company's intranet and added new features.",
     expIntra2: "Complete rework of the intranet's project management application. Used PHP, HTML, CSS and JavaScript.",
     major: "First of my class",
-    languages: {
-        category: "Languages",
-        icon: "message-circle",
-        color: "limegreen",
-        list: [
-            "French",
-            "Fluent English"
-        ]
-    },
+    languages: "Languages",
+    french: "French",
+    english: "English",
     plusUrbilog: {
         title: "Acquired skills :",
         text: "<ul><li>Work in a professional setting</li>" +
@@ -128,7 +120,8 @@ const en: Lang = {
     licence: "Bachelor's degree in CS",
     master: "Master's degree",
     bac: "High school Diploma",
-    bts: "Two-year Technical Degree (BTS SIO option SLAM)"
+    bts: "Two-year Technical Degree (BTS SIO option SLAM)",
+    common: "Common"
 }
 
 const languages: { [key: string]: Lang } = {
@@ -155,11 +148,12 @@ export const competences: { title: string; icon: string; list: Competence[] } = 
             icon: "compass",
             color: "deepskyblue",
             list: [
-                "React",
-                "Vue.js",
-                "Angular",
-                "TypeScript",
-                "SCSS",
+                ["React", true],
+                ["Vue.js", true],
+                ["Spring", false],
+                ["Angular", false],
+                ["TypeScript", false],
+                ["SCSS", false],
             ]
         },
         {
@@ -167,40 +161,52 @@ export const competences: { title: string; icon: string; list: Competence[] } = 
             icon: "smartphone",
             color: "mediumturquoise",
             list: [
-                "Flutter",
-                "React Native"
+                ["Flutter", true],
+                ["React Native", true],
+                ["Kotlin Multiplatform", false]
             ]
         },
         {
-            category: "HL",
+            category: languages[cl].common,
             icon: "coffee",
             color: "rebeccapurple",
             list: [
-                "Java",
-                "C#",
-                "Kotlin",
-                "Python"
+                ["Java", true],
+                ["Python", true],
+                ["C", true],
+                ["Kotlin", false],
+                ["C#", false],
+                ["C++", false]
             ]
         },
-        {
+        /*{
             category: "LL",
             icon: "cpu",
             color: "darkslategrey",
             list: [
-                "C",
-                "C++"
+                ["C", true],
+                ["C++", false]
             ]
-        },
+        },*/
         {
             category: languages[cl].method,
             icon: "git-branch",
             color: "orangered",
             list: [
-                "Git",
-                "Agile / Scrum"
-            ]
+                ["Git", true],
+                ["Agile / Scrum", false],
+                ["Debugging", false]
+            ],
         },
-        languages[cl].languages
+        {
+            category: languages[cl].languages,
+                icon: "message-circle",
+                color: "limegreen",
+                list: [
+                [languages[cl].french, false],
+                [languages[cl].english, false]
+            ]
+        }
     ]
 }
 
@@ -244,21 +250,19 @@ export const formations: { title: string; icon: string; list: Formation[] } = {
             title: languages[cl].licence,
             school: `${languages[cl].univOf} Lille, Villeneuve-d’Ascq`,
             time: "2018 - 2019"
-        }
-        ,
+        },
         {
             title: languages[cl].bts,
             school: "Lycée privé Saint Rémi, Roubaix",
             mention: languages[cl].major,
             time: "2016 - 2018"
-        }
-        ,
-        {
+        },
+        /*{
             title: languages[cl].bac,
             school: "Lycée privé Saint Rémi, Roubaix",
             mention: "Mention AB",
             time: "2011 - 2014"
-        }
+        }*/
     ]
 }
 
@@ -275,6 +279,24 @@ export const links: Link[] = [
         icon: "link"
     },*/
     {
+        label: "Age",
+        text: "24 ans",
+        href: "",
+        icon: "gift"
+    },
+    {
+        label: "Place",
+        text: "59000 Lille",
+        href: "https://goo.gl/maps/TmwMqWeN4KWqp9wv6",
+        icon: "map-pin"
+    },
+    {
+        label: "Phone",
+        text: "+33 6 24 54 58 84",
+        href: "tel:+33624545884",
+        icon: "phone"
+    },
+    {
         label: "GitHub",
         text: "github.com/DavidIvain",
         href: "https://github.com/DavidIvain",
@@ -285,5 +307,5 @@ export const links: Link[] = [
         text: "linkedin.com/in/david-ivain",
         href: "https://www.linkedin.com/in/david-ivain",
         icon: "linkedin"
-    }
+    },
 ]
