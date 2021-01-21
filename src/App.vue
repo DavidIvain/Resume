@@ -207,6 +207,11 @@ $secondary: (
     )
 );
 
+.mdc-elevation--z8, .mdc-elevation--z2 {
+  -webkit-print-color-adjust: exact;
+  -webkit-filter: blur(0);
+}
+
 @each $v, $col in $primary {
   #app .bg-primary-#{str-slice($v, 0, 1)} {
     background-color: #{nth($col, 1)};
