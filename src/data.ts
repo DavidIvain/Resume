@@ -60,15 +60,19 @@ interface Lang {
     bac: string;
     bts: string;
     common: string;
+    coInterest: string;
+    guitar: string;
+    webDev: string;
+    intro: string;
+    about: string;
+    yo: string;
 }
-
-let cl = "fr";
 
 const fr: Lang = {
     expAng: "Travail sur une application pour la gestion de transcripts en Angular 8.",
     expIntra1: "Corrections de bugs sur l’intranet de l’entreprise et ajout de nouvelles fonctionnalités.",
     expIntra2: "Refonte complète de l’application Gestion de Projets de l’intranet. Utilisation de PHP, HTML, CSS et JavaScript.",
-    major: "Premier de ma promotion",
+    major: "Major de promotion",
     languages: "Langues",
     french: "Français",
     english: "Anglais",
@@ -83,7 +87,7 @@ const fr: Lang = {
     trainee: "Développeur Stagiaire",
     univOf: "Université de",
     week: "semaine",
-    method: "Methodologie",
+    method: "Méthodologie",
     education: "Études",
     internships: "Stages",
     skills: "Compétences",
@@ -91,7 +95,23 @@ const fr: Lang = {
     master: "Master",
     bac: "Baccalauréat Général Scientifique",
     bts: "BTS SIO option SLAM",
-    common: "Langages"
+    common: "Langages",
+    coInterest: "Centres d'intérêt",
+    guitar: "Guitare",
+    webDev: "Développement Web",
+    intro: `<p>
+Étudiant en 2ème année de master informatique à l'université de Lille,<br/>
+Je suis à la recherche d'un stage de fin d'études en tant que développeur, de préférence, mais non-exclusivement, dans le domaine du web ou mobile.
+</p>
+<p>
+Ma formation à l'université de Lille m'a permis d'obtenir une certaine expérience avec Java, C et l'outil GitLab, ainsi qu'avec Flutter grâce à mes projets de cette année pour l'Inria.
+Mes projets personnels et mes stages m'ont également permis de me familiariser avec JavaScript, TypeScript et leurs nombreux frameworks.
+</p>
+<p>
+Curieux, j'aime expérimenter avec de nouveaux langages et outils.
+</p>`,
+    about: "À Propos",
+    yo: "ans"
 };
 
 const en: Lang = {
@@ -110,7 +130,7 @@ const en: Lang = {
             "<li>Web technologies (HTML, CSS, PHP, JavaScript, Node.js and Angular)</li></ul>"
     },
     today: "Today",
-    trainee: "Software Developper Intern",
+    trainee: "Software Developer Intern",
     univOf: "University of",
     week: "week",
     method: "Methodology",
@@ -121,7 +141,28 @@ const en: Lang = {
     master: "Master's degree",
     bac: "High school Diploma",
     bts: "Two-year Technical Degree (BTS SIO option SLAM)",
-    common: "Common"
+    common: "Common",
+    coInterest: "Centers of interest",
+    guitar: "Guitar",
+    webDev: "Web Development",
+    intro: `<p>
+Master's degree student at the University of Lille,<br/>
+I'm looking for a internship as a developer, preferably but not exclusively in Web or mobile development.
+</p>
+<p>
+My education at the University of Lille gave me some experience with Java, C and GitLab, as well as Flutter thanks to the projects I took part in this year for Inria.
+Also, my personal projects and previous internships made me really familiar with JavaScript, Typescript and their numerous frameworks.
+</p>
+<p>
+Being inquiring, I love to play and experiment with new languages and tools.
+</p>`,
+    about: "About",
+    yo: "years old"
+}
+
+export enum LangEnum {
+    FR = "fr",
+    EN = "en"
 }
 
 const languages: { [key: string]: Lang } = {
@@ -129,183 +170,208 @@ const languages: { [key: string]: Lang } = {
     "en": en
 };
 
-export function getLanguages(): string[] {
-    return Object.keys(languages);
-}
+export class Data {
+    private cl: LangEnum;
 
-export function setLanguage(lang: string): boolean {
-    if (!Object.keys(languages).includes(lang)) return false;
-    cl = lang;
-    return true;
-}
+    constructor(language = LangEnum.FR) {
+        this.cl = language;
+    }
 
-export const competences: { title: string; icon: string; list: Competence[] } = {
-    title: languages[cl].skills,
-    icon: "check-circle",
-    list: [
-        {
-            category: "Web",
-            icon: "compass",
-            color: "deepskyblue",
-            list: [
-                ["React", true],
-                ["Vue.js", true],
-                ["Spring", false],
-                ["Angular", false],
-                ["TypeScript", false],
-                ["SCSS", false],
-            ]
-        },
-        {
-            category: "Mobile",
-            icon: "smartphone",
-            color: "mediumturquoise",
-            list: [
-                ["Flutter", true],
-                ["React Native", true],
-                ["Kotlin Multiplatform", false]
-            ]
-        },
-        {
-            category: languages[cl].common,
-            icon: "coffee",
-            color: "rebeccapurple",
-            list: [
-                ["Java", true],
-                ["Python", true],
-                ["C", true],
-                ["Kotlin", false],
-                ["C#", false],
-                ["C++", false]
-            ]
-        },
-        /*{
-            category: "LL",
-            icon: "cpu",
-            color: "darkslategrey",
-            list: [
-                ["C", true],
-                ["C++", false]
-            ]
-        },*/
-        {
-            category: languages[cl].method,
-            icon: "git-branch",
-            color: "orangered",
-            list: [
-                ["Git", true],
-                ["Agile / Scrum", false],
-                ["Debugging", false]
-            ],
-        },
-        {
-            category: languages[cl].languages,
-                icon: "message-circle",
-                color: "limegreen",
-                list: [
-                [languages[cl].french, false],
-                [languages[cl].english, false]
-            ]
-        }
-    ]
-}
+    get languages(): string[] {
+        return Object.keys(LangEnum);
+    }
+    get language(): LangEnum {
+        return this.cl;
+    }
+    set language(language: LangEnum) {
+        if (!Object.keys(languages).includes(language)) throw Error("Invalid language");
+        this.cl = language;
+    }
 
-export const stages: { title: string; icon: string; list: Stage[] } = {
-    title: languages[cl].internships,
-    icon: "briefcase",
-    list: [
-        {
-            title: `${languages[cl].trainee} , Urbilog ; Villeneuve-d’Ascq`,
-            experiences: [
+    get competences(): { title: string; icon: string; list: Competence[] } {
+        return {
+            title: languages[this.cl].skills,
+            icon: "check-circle",
+            list: [
                 {
-                    time: `12 ${languages[cl].week}s, 2019`,
-                    description: languages[cl].expAng
+                    category: "Web",
+                    icon: "compass",
+                    color: "deepskyblue",
+                    list: [
+                        ["React", true],
+                        ["Vue", true],
+                        ["Spring", false],
+                        ["TypeScript", false],
+                        ["SASS", false],
+                    ]
                 },
                 {
-                    time: `8 ${languages[cl].week}s, 2018`,
-                    description: languages[cl].expIntra2
+                    category: "Mobile",
+                    icon: "smartphone",
+                    color: "mediumturquoise",
+                    list: [
+                        ["Flutter", true],
+                        ["React Native", true],
+                    ]
                 },
                 {
-                    time: `5 ${languages[cl].week}s, 2017`,
-                    description: languages[cl].expIntra1
+                    category: languages[this.cl].common,
+                    icon: "coffee",
+                    color: "rebeccapurple",
+                    list: [
+                        ["Java", true],
+                        ["Python", true],
+                        ["C", true],
+                        ["Kotlin", false],
+                        ["C++", false]
+                    ]
+                },
+                {
+                    category: languages[this.cl].method,
+                    icon: "git-branch",
+                    color: "orangered",
+                    list: [
+                        ["Git", true],
+                        ["Agile / Scrum", false],
+                        ["Debugging", false]
+                    ],
+                },
+                {
+                    category: languages[this.cl].languages,
+                    icon: "message-circle",
+                    color: "limegreen",
+                    list: [
+                        [languages[this.cl].french, false],
+                        [languages[this.cl].english, false]
+                    ]
                 }
-            ],
-            plus: [
-                languages[cl].plusUrbilog
             ]
         }
-    ]
-}
+    }
 
-export const formations: { title: string; icon: string; list: Formation[] } = {
-    title: languages[cl].education,
-    icon: "book",
-    list: [
-        {
-            title: `${languages[cl].master}: IAGL (Infrastructures Appicatives et Génie Logiciel)`,
-            school: `${languages[cl].univOf} Lille, Villeneuve-d’Ascq`,
-            time: `2019 - ${languages[cl].today}`
-        },
-        {
-            title: languages[cl].licence,
-            school: `${languages[cl].univOf} Lille, Villeneuve-d’Ascq`,
-            time: "2018 - 2019"
-        },
-        {
-            title: languages[cl].bts,
-            school: "Lycée privé Saint Rémi, Roubaix",
-            mention: languages[cl].major,
-            time: "2016 - 2018"
-        },
-        /*{
-            title: languages[cl].bac,
-            school: "Lycée privé Saint Rémi, Roubaix",
-            mention: "Mention AB",
-            time: "2011 - 2014"
-        }*/
-    ]
-}
+    get stages(): { title: string; icon: string; list: Stage[] } {
+        return {
+            title: languages[this.cl].internships,
+            icon: "briefcase",
+            list: [
+                {
+                    title: `${languages[this.cl].trainee} , Urbilog ; Villeneuve-d’Ascq`,
+                    experiences: [
+                        {
+                            time: `12 ${languages[this.cl].week}s, 2019`,
+                            description: languages[this.cl].expAng
+                        },
+                        {
+                            time: `8 ${languages[this.cl].week}s, 2018`,
+                            description: languages[this.cl].expIntra2
+                        },
+                        {
+                            time: `5 ${languages[this.cl].week}s, 2017`,
+                            description: languages[this.cl].expIntra1
+                        }
+                    ],
+                    plus: [
+                        languages[this.cl].plusUrbilog
+                    ]
+                }
+            ]
+        }
+    }
 
-export const header = {
-    name: "David Ivain",
-    description: `M2 IAGL, ${languages[cl].univOf} Lille`
-}
+    get formations(): { title: string; icon: string; list: Formation[] } {
+        return {
+            title: languages[this.cl].education,
+            icon: "book",
+            list: [
+                {
+                    title: `${languages[this.cl].master}: IAGL (Infrastructures Applicatives et Génie Logiciel)`,
+                    school: `${languages[this.cl].univOf} Lille, Villeneuve-d’Ascq`,
+                    time: `2019 - ${languages[this.cl].today}`
+                },
+                {
+                    title: languages[this.cl].licence,
+                    school: `${languages[this.cl].univOf} Lille, Villeneuve-d’Ascq`,
+                    time: "2018 - 2019"
+                },
+                {
+                    title: languages[this.cl].bts,
+                    school: "Lycée privé Saint Rémi, Roubaix",
+                    mention: languages[this.cl].major,
+                    time: "2016 - 2018"
+                },
+            ]
+        }
+    }
 
-export const links: Link[] = [
-    /*{
-        label: "Site",
-        text: "www.monsite.com",
-        href: "http://www.monsite.com",
-        icon: "link"
-    },*/
-    {
-        label: "Age",
-        text: "24 ans",
-        href: "",
-        icon: "gift"
-    },
-    {
-        label: "Place",
-        text: "59000 Lille",
-        href: "https://goo.gl/maps/TmwMqWeN4KWqp9wv6",
-        icon: "map-pin"
-    },
-    {
-        label: "Phone",
-        text: "+33 6 24 54 58 84",
-        href: "tel:+33624545884",
-        icon: "phone"
-    },
-    {
-        label: "GitHub",
-        text: "github.com/DavidIvain",
-        href: "https://github.com/DavidIvain",
-        icon: "github"
-    },
-    {
-        label: "LinkedIn",
-        text: "linkedin.com/in/david-ivain",
-        href: "https://www.linkedin.com/in/david-ivain",
-        icon: "linkedin"
-    },
-]
+    get header(): { name: string; description: string } {
+        return {
+            name: "David Ivain",
+            description: `M2 IAGL, ${languages[this.cl].univOf} Lille`
+        }
+    }
+
+    get links(): Link[] {
+        return [
+            {
+                label: "Age",
+                text: "24 " + languages[this.cl].yo,
+                href: "",
+                icon: "gift"
+            },
+            {
+                label: "Place",
+                text: "59000 Lille, France",
+                href: "",
+                icon: "map-pin"
+            },
+            {
+                label: "Mail",
+                text: "d.ivain@outlook.fr",
+                href: "mailto:d.ivain@outlook.fr",
+                icon: "mail"
+            },
+            {
+                label: "Phone",
+                text: "+33 6 24 54 58 84",
+                href: "tel:+33624545884",
+                icon: "phone"
+            },
+            {
+                label: "GitHub",
+                text: "github.com/DavidIvain",
+                href: "https://github.com/DavidIvain",
+                icon: "github"
+            },
+            {
+                label: "LinkedIn",
+                text: "linkedin.com/in/david-ivain",
+                href: "https://www.linkedin.com/in/david-ivain",
+                icon: "linkedin"
+            },
+        ]
+    }
+
+    get coInterest(): { title: string; list: string[] } {
+        return {
+            title: languages[this.cl].coInterest,
+            list: [
+                languages[this.cl].guitar,
+                "Animes",
+                languages[this.cl].webDev
+            ]
+        }
+    }
+
+    get intro(): string {
+        return languages[this.cl].intro;
+    }
+
+    getLocalized(key: string): string {
+        try {
+            return languages[this.cl][key];
+        } catch (e) {
+            console.error("Can't be localized");
+            console.error(e);
+        }
+    }
+}

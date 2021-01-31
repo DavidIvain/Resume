@@ -10,59 +10,89 @@
     <div id="circle-4" class="mdc-elevation--z8 zi-9 pos-absolute"/>
     <CContainer class="flex fd-row ai-center jc-flex-start p-2 zi-9">
       <CContainer class="m-2">
-        <CAvatar src="/assets/avatar.jpg" alt="My photo" class="mdc-elevation--z8 avatar-head"/>
+        <CAvatar @click="data.language === LangEnum.FR ? setLanguage(LangEnum.EN) : setLanguage(LangEnum.FR)" src="/assets/avatar.jpg" alt="My photo" class="mdc-elevation--z8 avatar-head"/>
       </CContainer>
       <CContainer class="ml-2 mr-2 fg-1">
         <CCard>
           <CContainer class="p-1">
             <CCardTitle background-color="cornflowerblue" :flex="false">
-              <h1>{{ name }}</h1>
-              <h2>{{ description }}</h2>
+              <h1>{{ data.header.name }}</h1>
+              <h2>{{ data.header.description }}</h2>
             </CCardTitle>
-            <CCardContent>
-              <CContainer v-for="link in links" :key="link.text" class="flex fd-row pt-1">
+            <CCardContent class="grid cols-2">
+              <CContainer v-for="link in data.links" :key="link.text" class="flex fd-row pt-1 col-1">
                 <img :src="'/assets/'+link.icon+'.svg'" :alt="link.label + ' icon'">
-                <a class="ml-1" v-bind:href="link.href" target="_blank">{{ link.text }}</a>
+                <a class="ml-1" v-bind:href="link.href" target="_blank" v-if="link.href">{{ link.text }}</a>
+                <span class="ml-1" v-bind:href="link.href" v-else>{{ link.text }}</span>
               </CContainer>
             </CCardContent>
           </CContainer>
         </CCard>
       </CContainer>
-    </CContainer>
-    <CContainer class="flex fd-column pr-4 pl-4 pb-4 fg-1 zi-9" id="content">
-      <CCard class="fg-1 flex fd-column p-2">
-        <CContainer class="flex fd-row fw-nowrap jc-flex-start">
-          <CContainer class="f-1 p-2">
+    </CContainer><!--header end-->
+    <CContainer class="flex fd-column pr-4 pl-4 pb-4 fg-1 zi-9" id="content"><!--main content begin-->
+      <CCard class="fg-1 flex fd-column p-2"><!--main card begin-->
+        <!--<CContainer class="flex fd-row fw-nowrap jc-flex-start">--><!--top part begin-->
+        <CContainer class="grid cols-2">
+          <CContainer class="p-2 col-1"><!--left part begin-->
             <CCardTitle background-color="crimson">
               <svg width="30" height="30">
                 <title>User icon</title>
                 <use href="/assets/user.svg#user" height="30" width="30"></use>
               </svg>
-              <h3 class="h1" style="margin-inline-start: 16px">À Propos</h3>
+              <h3 class="h1" style="margin-inline-start: 16px">{{ data.getLocalized("about") }}</h3>
             </CCardTitle>
             <CCardContent>
               <CContainer>
                 <h4 class="h3">Introduction</h4>
-                <p>
-                  Étudiant en 2ème année de master informatique à l'université de Lille,<br/>
-                  Je suis à la recherche d'un stage de fin d'études en tant que développeur, de préférence dans le domaine du web ou mobile.
-                </p>
-                <h4 class="h3">Centres d'intérêt</h4>
+                <CContainer v-html="data.intro"></CContainer>
+                <h4 class="h3">{{ data.coInterest.title }}</h4>
+                <ul>
+                  <li v-for="interest in data.coInterest.list" :key="interest">{{ interest }}</li>
+                </ul>
                 <p></p>
               </CContainer>
             </CCardContent>
-          </CContainer>
-          <CContainer class="f-1 p-2">
+            <CCardTitle
+                background="linear-gradient(to right, skyblue, plum, lightcoral)">
+              <svg width="30" height="30">
+                <title>{{data.competences.icon}} icon</title>
+                <use :href="'/assets/'+data.competences.icon+'.svg#'+data.competences.icon" height="30" width="30"></use>
+              </svg>
+              <h3 class="h1" style="margin-inline-start: 16px;">{{ data.competences.title }}</h3>
+            </CCardTitle>
+            <CCardContent class="flex fd-row jc-space-between p-1 fw-wrap" id="comp-container">
+              <CContainer v-for="competence in data.competences.list" :key="competence.category" class="flex fd-column fg-1">
+                <CCardTitle class="mb-1" align="center" :background-color="competence.color">
+                  <svg width="24" height="24">
+                    <title>{{ competence.icon }} icon</title>
+                    <use :href="'/assets/'+competence.icon+'.svg#'+competence.icon"></use>
+                  </svg>
+                  <h4 class="h2 mbs-0 mbe-0" style="text-align: center; margin-inline-start: 16px">
+                    {{ competence.category }}
+                  </h4>
+                </CCardTitle>
+                <CCard :elevated="false" class="fg-1">
+                  <CCardContent>
+                    <div v-for="comp in competence.list" :key="comp" class="competence">
+                      <p class="flex fd-row jc-space-between"><span>{{ comp[0] }}</span><img class="ml-1" v-if="comp[1]" src="/assets/star.svg" alt="star icon"></p>
+                    </div>
+                  </CCardContent>
+                </CCard>
+              </CContainer>
+            </CCardContent>
+          </CContainer><!--left part end-->
+          <CContainer class="p-2 col-1"><!--right part begin-->
             <CContainer>
               <CCardTitle background-color="mediumseagreen">
                 <svg width="30" height="30">
-                  <title>{{formations.icon}} icon</title>
-                  <use :href="'/assets/'+formations.icon+'.svg#'+formations.icon" height="30" width="30"></use>
+                  <title>{{data.formations.icon}} icon</title>
+                  <use :href="'/assets/'+data.formations.icon+'.svg#'+data.formations.icon" height="30" width="30"></use>
                 </svg>
-                <h3 class="h1" style="margin-inline-start: 16px">{{ formations.title }}</h3>
+                <h3 class="h1" style="margin-inline-start: 16px">{{ data.formations.title }}</h3>
               </CCardTitle>
               <CCardContent>
-                <CContainer v-for="formation in formations.list" :key="formation.title">
+                <CContainer v-for="formation in data.formations.list" :key="formation.title">
                   <h4 style="white-space: normal" class="h3 mbe-0">{{ formation.title }}</h4>
                   <p class="mbs-0 mbe-0">{{ formation.school }}</p>
                   <p class="mbs-0 mbe-0" v-if="formation.mention">{{ formation.mention }}</p>
@@ -73,13 +103,13 @@
             <CContainer>
               <CCardTitle background-color="rosybrown">
                 <svg width="30" height="30">
-                  <title>{{stages.icon}} icon</title>
-                  <use :href="'/assets/'+stages.icon+'.svg#'+stages.icon" height="30" width="30"></use>
+                  <title>{{data.stages.icon}} icon</title>
+                  <use :href="'/assets/'+data.stages.icon+'.svg#'+data.stages.icon" height="30" width="30"></use>
                 </svg>
-                <h3 class="h1" style="margin-inline-start: 16px">{{ stages.title }}</h3>
+                <h3 class="h1" style="margin-inline-start: 16px">{{ data.stages.title }}</h3>
               </CCardTitle>
               <CCardContent>
-                <CContainer v-for="stage in stages.list" :key="stage.title">
+                <CContainer v-for="stage in data.stages.list" :key="stage.title">
                   <h4 class="h3">{{ stage.title }}</h4>
                   <CContainer v-for="exp in stage.experiences" :key="exp.time">
                     <h5 class="mbe-0">{{ exp.time }}</h5>
@@ -92,40 +122,13 @@
                 </CContainer>
               </CCardContent>
             </CContainer>
-          </CContainer>
-        </CContainer>
+          </CContainer><!--right part end-->
+        </CContainer><!--top part end-->
         <CContainer class="p-2">
-          <CCardTitle
-                      background="linear-gradient(to right, skyblue, plum, lightcoral)">
-            <svg width="30" height="30">
-              <title>{{competences.icon}} icon</title>
-              <use :href="'/assets/'+competences.icon+'.svg#'+competences.icon" height="30" width="30"></use>
-            </svg>
-            <h3 class="h1" style="margin-inline-start: 16px;">{{ competences.title }}</h3>
-          </CCardTitle>
-          <CCardContent class="flex fd-row jc-space-between p-1">
-            <CContainer v-for="competence in competences.list" :key="competence.category" class="flex fd-column">
-              <CCardTitle class="mb-1" align="center" :background-color="competence.color">
-                <svg width="24" height="24">
-                  <title>{{ competence.icon }} icon</title>
-                  <use :href="'/assets/'+competence.icon+'.svg#'+competence.icon"></use>
-                </svg>
-                <h4 class="h2 mbs-0 mbe-0" style="text-align: center; margin-inline-start: 16px">
-                  {{ competence.category }}
-                </h4>
-              </CCardTitle>
-              <CCard :elevated="false">
-                <CCardContent>
-                  <div v-for="comp in competence.list" :key="comp" class="competence">
-                    <p class="flex fd-row jc-space-between"><span>{{ comp[0] }}</span><img class="ml-1" v-if="comp[1]" src="/assets/star.svg" alt="star icon"></p>
-                  </div>
-                </CCardContent>
-              </CCard>
-            </CContainer>
-          </CCardContent>
+
         </CContainer>
-      </CCard>
-    </CContainer>
+      </CCard><!--main card end-->
+    </CContainer><!--main content end-->
   </CContainer>
 </template>
 
@@ -135,7 +138,7 @@ import CAvatar from "@/components/CAvatar.vue";
 import CCard from "@/components/CCard.vue";
 import CCardContent from "@/components/CCardContent.vue";
 import {defineComponent} from "vue";
-import {competences, stages, formations, header, links} from "@/./data";
+import {Data, LangEnum} from "@/./data";
 import CCardTitle from "@/components/CCardTitle.vue";
 
 const App = defineComponent({
@@ -149,12 +152,13 @@ const App = defineComponent({
   },
   data() {
     return {
-      competences: competences,
-      stages: stages,
-      formations: formations,
-      name: header.name,
-      description: header.description,
-      links: links
+      data: new Data(LangEnum.FR),
+      LangEnum: LangEnum
+    }
+  },
+  methods: {
+    setLanguage: function (l: string) {
+      this.data.language = l;
     }
   }
 });
@@ -342,6 +346,10 @@ code {
 
 .competence:last-child > * {
   margin-block-end: 0 !important;
+}
+
+#comp-container {
+  gap: 16px;
 }
 
 </style>
