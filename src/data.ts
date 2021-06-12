@@ -75,7 +75,7 @@ const fr: Lang = {
     major: "Major de promotion",
     languages: "Langues",
     french: "Français",
-    english: "Anglais",
+    english: "Anglais (TOEIC 965)",
     plusUrbilog: {
         title: "Compétences Acquises :",
         text: "<ul><li>Fonctionnement en entreprise</li>" +
@@ -89,7 +89,7 @@ const fr: Lang = {
     week: "semaine",
     method: "Méthodologie",
     education: "Études",
-    internships: "Stages",
+    internships: "Expériences",
     skills: "Compétences",
     licence: "Licence 3 Informatique",
     master: "Master",
@@ -121,7 +121,7 @@ const en: Lang = {
     major: "First of my class",
     languages: "Languages",
     french: "French",
-    english: "English",
+    english: "English (TOEIC 965)",
     plusUrbilog: {
         title: "Acquired skills :",
         text: "<ul><li>Work in a professional setting</li>" +
@@ -314,7 +314,7 @@ export class Data {
         return [
             {
                 label: "Age",
-                text: "24 " + languages[this.cl].yo,
+                text: Math.floor((Date.now() - new Date(1996, 8, 24).getTime())/(1000*3600*24*365)) + " " + languages[this.cl].yo,
                 href: "",
                 icon: "gift"
             },
